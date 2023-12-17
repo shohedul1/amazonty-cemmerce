@@ -1,10 +1,16 @@
+
 import React from 'react'
 import Container from './Container';
 import { PcCase, ScanFace, Smartphone, Watch } from 'lucide-react';
 import Link from 'next/link';
+import Product from './Product';
+import { getProducts } from '@/helpers';
+import { ProductType } from '../../type';
 
 
-const Products = () => {
+const Products = async () => {
+    const product = await getProducts();
+   
     return (
         <div className='mt-10'>
             <Container>
@@ -40,6 +46,13 @@ const Products = () => {
                     </div>
                 </div>
 
+                {/* product grid cart */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
+                    {product?.data.map((item:ProductType)=>(
+                        <Product key={item?.id} item={item}/>
+                    ))}
+                </div>        
+                
             </Container>
         </div>
     )
