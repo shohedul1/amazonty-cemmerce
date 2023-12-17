@@ -1,8 +1,11 @@
+import Container from '@/components/Container'
+import Title from '@/components/Title'
 import React from 'react'
-
 const page = () => {
   return (
-    <div>Cart page</div>
+    <Container>
+      <Title title={'Your Cart'}/>
+    </Container>
   )
 }
 

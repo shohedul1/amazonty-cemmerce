@@ -36,8 +36,6 @@ const Product = ({item}:ItemProps) => {
                 </div>
             </div>
         </div>
-
-
     )
 }
 

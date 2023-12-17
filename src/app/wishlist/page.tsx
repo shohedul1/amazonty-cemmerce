@@ -1,8 +1,12 @@
-import React from 'react'
+import Container from "@/components/Container"
+import Title from "@/components/Title"
+
 
 const page = () => {
   return (
-    <div>wishlist</div>
+    <Container>
+    <Title title={'Your Wishlist'}/>
+  </Container>
   )
 }
 

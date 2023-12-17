@@ -5,6 +5,9 @@ const nextConfig = {
           "res.cloudinary.com",
           "lh3.googleusercontent.com",
           "avatars.githubusercontent.com",
+          "platform-lookaside.fbsbx.com"
+           
+          
         ],
       },
 }

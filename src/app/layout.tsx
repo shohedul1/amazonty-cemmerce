@@ -3,8 +3,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import { cn } from '@/lib/utils';
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import Fooder from '@/components/Fooder ';
+import Layout from '@/components/Layout';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn('min-h-screen font-sans antialiased bgDesing overflow-x-hidden')}>
-        <Navbar/>
-        {children}
-        <Fooder/>
+        <Layout>
+          <Navbar />
+          {children}
+          <Fooder />
+        </Layout>
       </body>
     </html>
   )
