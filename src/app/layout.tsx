@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import { cn } from '@/lib/utils';
 import "slick-carousel/slick/slick.css"; 
+import Fooder from '@/components/Fooder ';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={cn('min-h-screen font-sans antialiased bgDesing overflow-x-hidden')}>
         <Navbar/>
         {children}
+        <Fooder/>
       </body>
     </html>
   )
