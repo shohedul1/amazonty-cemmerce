@@ -20,6 +20,7 @@ export interface ProductType  {
     }
 };
 
+
 export interface ItemProps{
     item: ProductType;
 };

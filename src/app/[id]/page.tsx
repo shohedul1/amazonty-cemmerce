@@ -44,12 +44,12 @@ const page = async ({searchParams}:Porps) => {
         from this product..
       </p>
       
-      <button 
+      {/* <button 
       
       className="bg-desingColor/80 text-zinc-700 px-6 py-2 font-medium rounded-md hover:bg-desingColor hover:text-black cursor-pointer duration-200 hover:shadow-lg w-40 my-2"
       >
         add to cart
-      </button>
+      </button> */}
 
       {item?.attributes?.isNew && (
         <p className="text-desingColor font-semibold">New Arrival</p>

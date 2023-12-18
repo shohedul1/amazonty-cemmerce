@@ -18,11 +18,12 @@ const Cart = () => {
     const [totalAmt, setTotalAmt] = useState(0);
     const [rowPrice, setRowPrice] = useState(0);
 
-    const { productData , userInfo} = useSelector((state: StateProps) => state?.pro);
+    const { productData, userInfo } = useSelector((state: StateProps) => state?.pro);
     const dispatch = useDispatch();
     const router = useRouter();
 
     const { data: session } = useSession();
+    console.log(session);
 
     const handleReset = () => {
         const confirmReset = window.confirm("Are you sure you want to rest your Cart?");
@@ -179,15 +180,8 @@ const Cart = () => {
                             </span>
                         </p>
 
-                        {userInfo ? (
-                            <button onClick={handleCheckout}
 
-                                className="bg-zinc-800 text-zinc-200 my-2 py-2 uppercase text-center rounded-md font-semibold hover:bg-black hover:text-white duration-200"
-                            >
-                                Proceed to Checkout
-                            </button>
-
-                        ) : (
+                        {!session && (
                             <div>
                                 <button className="bg-black text-slate-100 mt-4 py-3 px-6 hover:bg-orange-900 cursor-pointer duration-200">
                                     Proceed to checkout
@@ -196,6 +190,16 @@ const Cart = () => {
                                     Please login to continue
                                 </p>
                             </div>
+
+                        )}
+                        {session && (
+                            <button onClick={handleCheckout}
+
+                                className="bg-zinc-800 text-zinc-200 my-2 py-2 uppercase text-center rounded-md font-semibold hover:bg-black hover:text-white duration-200"
+                            >
+                                Proceed to Checkout
+                            </button>
+
                         )}
 
 
