@@ -18,8 +18,19 @@ export interface ProductType  {
             }
         }
     }
-}
+};
 
 export interface ItemProps{
     item: ProductType;
+};
+
+export interface StateProps{
+    pro:{
+        productData: ProductType[];
+        userInfo:{};
+        orderData: {
+            order: ProductType[];
+        };
+        favoriteData: ProductType[];
+    };
 }
