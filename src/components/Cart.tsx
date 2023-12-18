@@ -72,7 +72,7 @@ const Cart = () => {
     // };
     const handleCheckout = async()=>{
         const stripe = await stripePromise
-       const response = await fetch("'https://illustrious-hotteok-34ef0e.netlify.app/api/checkout",{
+       const response = await fetch("https://illustrious-hotteok-34ef0e.netlify.app/api/checkout",{
         method: "POST",
         headers:{"Content-Type": "application/json"},
         body: JSON.stringify({
