@@ -10,7 +10,7 @@ import { resetOrder } from '@/redux/proSlice';
 const OrderDetails = () => {
     const dispatch = useDispatch();
     const { orderData } = useSelector((state: StateProps) => state?.pro);
-    console.log(orderData);
+    // console.log(orderData);
     const [totalAmt, setTotalAmt] = useState(0);
 
     useEffect(() => {
