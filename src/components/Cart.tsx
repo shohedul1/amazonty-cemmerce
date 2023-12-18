@@ -9,14 +9,14 @@ import FormattedPrice from "./FormattedPrice";
 import { calculatePercentage } from "@/helpers";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-// import { loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 
 const Cart = () => {
     const [totalAmt, setTotalAmt] = useState(0);
     const [rowPrice, setRowPrice] = useState(0);
+   
 
     const { productData } = useSelector((state: StateProps) => state.pro);
     const dispatch = useDispatch();
@@ -33,8 +33,8 @@ const Cart = () => {
         }
     };
 
-    // Price value
-    useEffect(() => {
+     // Price value
+     useEffect(() => {
         let amt = 0;
         let rowAmt = 0;
         productData.map((item: ProductType) => {
@@ -47,29 +47,6 @@ const Cart = () => {
         setTotalAmt(amt);
         setRowPrice(rowAmt);
     }, [productData]);
-
-
-    //stripe payment
-    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-    const handleCheckout = async ()=>{
-        const stripe = await stripePromise;
-        const response = await fetch('https://e-commerce-nextjs-web.netlify.app/api/checkout',{
-            method: 'POST',
-            headers:{'Content-Type':"application/json"},
-            body:JSON.stringify({
-                items:productData,
-                email:session?.user?.email,
-
-            }),
-        });
-
-        const data = await response.json();
-        if(response.ok){
-            stripe?.redirectToCheckout({sessionId:data.id});
-        }else{
-            throw new Error("Failed to create Stripe Payment");
-        }
-    };
 
     return (
         <>
@@ -159,6 +136,7 @@ const Cart = () => {
                         className="bg-zinc-950 text-zinc-200 w-36 py-3 mt-5 rounded-md uppercase text-xs font-semibold hover:bg-red-700 hover:text-white duration-200">
                         Reset Cart
                     </button>
+
                     <div className="mt-4 bg-white max-w-xl p-4 flex flex-col gap-1">
                         <p className="border-b-[1px] border-b-desingColor py-1">Cart Summary</p>
                         <p className="flex items-center justify-between">
@@ -179,7 +157,7 @@ const Cart = () => {
                             </span>
                         </p>
                         <button 
-                        onClick={handleCheckout}
+                       
                         className="bg-zinc-800 text-zinc-200 my-2 py-2 uppercase text-center rounded-md font-semibold hover:bg-black hover:text-white duration-200"
                         >
                             Proceed to Checkout
@@ -195,7 +173,6 @@ const Cart = () => {
                     </Link>
                 </div>
             )}
-
             <Toaster position="bottom-right"
                 toastOptions={{
                     style: {
@@ -203,6 +180,8 @@ const Cart = () => {
                         color: "#fff",
                     }
                 }} />
+
+          
         </>
     )
 }

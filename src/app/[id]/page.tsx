@@ -6,6 +6,7 @@ import Container from "@/components/Container";
 import Image from "next/image";
 import FormattedPrice from "@/components/FormattedPrice";
 
+
 type Porps ={
   searchParams: {[key:string]: string | string[] | undefined };
 };
@@ -21,7 +22,7 @@ const page = async ({searchParams}:Porps) => {
     return product;
   };
   const item = singleProduct(id);
-  // console.log(product);
+  
 
  
   return (
