@@ -11,18 +11,18 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
 
 
 const Cart = () => {
     const [totalAmt, setTotalAmt] = useState(0);
     const [rowPrice, setRowPrice] = useState(0);
-   
-
-    const { productData } = useSelector((state: StateProps) => state.pro);
+    
+    const { productData , userInfo} = useSelector((state: StateProps) => state.pro);
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const {data:session} = useSession();
+    const { data: session } = useSession();
 
     const handleReset = () => {
         const confirmReset = window.confirm("Are you sure you want to rest your Cart?");
@@ -33,8 +33,8 @@ const Cart = () => {
         }
     };
 
-     // Price value
-     useEffect(() => {
+    // Price value
+    useEffect(() => {
         let amt = 0;
         let rowAmt = 0;
         productData.map((item: ProductType) => {
@@ -47,6 +47,28 @@ const Cart = () => {
         setTotalAmt(amt);
         setRowPrice(rowAmt);
     }, [productData]);
+
+    //stripe payment
+    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+    const handleCheckout = async () => {
+        const stripe = await stripePromise;
+        const response = await fetch('https://illustrious-hotteok-34ef0e.netlify.app/api/checkout', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                items: productData,
+                email: session?.user?.email,
+            }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            stripe?.redirectToCheckout({ sessionId: data.id })
+        } else {
+            throw new Error("Failed to create Stripe Payment");
+        }
+    };
 
     return (
         <>
@@ -156,12 +178,27 @@ const Cart = () => {
                                 <FormattedPrice amount={totalAmt} className="font-semibold text-lg" />
                             </span>
                         </p>
-                        <button 
-                       
-                        className="bg-zinc-800 text-zinc-200 my-2 py-2 uppercase text-center rounded-md font-semibold hover:bg-black hover:text-white duration-200"
-                        >
-                            Proceed to Checkout
-                        </button>
+
+                        {userInfo ? (
+                            <button onClick={handleCheckout}
+
+                                className="bg-zinc-800 text-zinc-200 my-2 py-2 uppercase text-center rounded-md font-semibold hover:bg-black hover:text-white duration-200"
+                            >
+                                Proceed to Checkout
+                            </button>
+
+                        ) : (
+                            <div>
+                                <button className="bg-black text-slate-100 mt-4 py-3 px-6 hover:bg-orange-900 cursor-pointer duration-200">
+                                    Proceed to checkout
+                                </button>
+                                <p className="text-base mt-2 text-red-500 font-semibold animate-bounce">
+                                    Please login to continue
+                                </p>
+                            </div>
+                        )}
+
+
 
                     </div>
                 </div>
@@ -181,7 +218,7 @@ const Cart = () => {
                     }
                 }} />
 
-          
+
         </>
     )
 }

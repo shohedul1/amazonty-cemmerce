@@ -90,7 +90,7 @@ const Wishlist = () => {
                 </div>
             ) : (
                 <div className="py-10 flex flex-col gap-1 items-center justify-center ">
-                    <p className="text-lg font-bold">Your Cart is Empty</p>
+                    <p className="text-lg font-bold">Your Wishlist is Empty</p>
                     <Link href={"/"} className="text-sm uppercase font-semibold underline underline-offset-2 hover:text-desingColor duration-200">
                         Go back to Shopping
                     </Link>
