@@ -14,7 +14,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
   // console.log(session)
-  const {productData,favoriteData,orderData} = useSelector((state:StateProps)=>state.pro);
+  const { productData, favoriteData, orderData } = useSelector((state: StateProps) => state.pro);
   console.log(productData);
 
   return (
@@ -33,12 +33,14 @@ const Navbar = () => {
           ))}
         </ul>
         {
-                 orderData?.order?.length > 0 && session && (
-                     <Link href={"/order"} className='headerDiv px-2 gap-x-1 cursor-pointer'>
-                     <p className='text-sm font-semibold'>Orders</p>
-                     </Link>
-                 )
-             }
+          orderData?.order?.length > 0 && session && (
+            <Link href={"/order"}
+              className='hover:text-black cursor-pointer duration-200 relative overflow-hidden group text-sm uppercase font-semibold'>
+              order
+              <span className={`absolute h-[1px] w-full bg-blue-700 left-0 bottom-0 -translate-x-[100%] group-hover:translate-x-0 transition-transform duration-500`} />
+            </Link>
+          )
+        }
         {/* icons */}
         <div className="flex items-center justify-between gap-x-5">
           <Link href={"/wishlist"}
@@ -72,7 +74,7 @@ const Navbar = () => {
               Login
               <span className={`absolute h-[1px] w-full bg-blue-700 left-0 bottom-0 -translate-x-[100%] group-hover:translate-x-0 transition-transform duration-500`} />
             </button>
-            )}
+          )}
         </div>
       </div>
     </div>

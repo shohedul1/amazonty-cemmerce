@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ProductType, StateProps } from "../../type";
 import { Minus, Plus, X } from "lucide-react";
-import { decreaseQuantity, deleteProduct, increaseQuantity, resetCart } from "@/redux/proSlice";
+import { addOrder, decreaseQuantity, deleteProduct, increaseQuantity, resetCart } from "@/redux/proSlice";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import FormattedPrice from "./FormattedPrice";
@@ -18,7 +18,7 @@ const Cart = () => {
     const [totalAmt, setTotalAmt] = useState(0);
     const [rowPrice, setRowPrice] = useState(0);
 
-    const { productData, userInfo } = useSelector((state: StateProps) => state?.pro);
+    const { productData,  } = useSelector((state: StateProps) => state?.pro);
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -51,24 +51,44 @@ const Cart = () => {
 
     //stripe payment
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-    const handleCheckout = async () => {
-        const stripe = await stripePromise;
-        const response = await fetch('https://illustrious-hotteok-34ef0e.netlify.app/api/checkout', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                items: productData,
-                email: session?.user?.email,
-            }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-            stripe?.redirectToCheckout({ sessionId: data.id })
-        } else {
-            throw new Error("Failed to create Stripe Payment");
-        }
+    // const handleCheckout = async () => {
+    //     const stripe = await stripePromise;
+    //     const response = await fetch('https://illustrious-hotteok-34ef0e.netlify.app/api/checkout', {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             items: productData,
+    //             email: session?.user?.email,
+    //         }),
+    //     });
+    //     const data = await response.json();
+    //     if (response.ok) {
+    //         stripe?.redirectToCheckout({ sessionId: data.id })
+    //     } else {
+    //         throw new Error("Failed to create Stripe Payment");
+    //     }
+    // };
+    const handleCheckout = async()=>{
+        const stripe = await stripePromise
+       const response = await fetch("http://localhost:3000/api/checkout",{
+        method: "POST",
+        headers:{"Content-Type": "application/json"},
+        body: JSON.stringify({
+            items: productData,
+            email: session?.user?.email,
+        }),
+       });
+       const data = await response.json();
+
+       if(response.ok){
+         await dispatch(addOrder({order: productData, id: data.id }));
+         stripe?.redirectToCheckout({ sessionId: data.id });
+         dispatch(resetCart());
+       }else{
+        throw new Error("Failed to create Stripe Payment");
+       }
     };
 
     return (
