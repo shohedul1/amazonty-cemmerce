@@ -17,8 +17,8 @@ import { loadStripe } from "@stripe/stripe-js";
 const Cart = () => {
     const [totalAmt, setTotalAmt] = useState(0);
     const [rowPrice, setRowPrice] = useState(0);
-    
-    const { productData , userInfo} = useSelector((state: StateProps) => state.pro);
+
+    const { productData , userInfo} = useSelector((state: StateProps) => state?.pro);
     const dispatch = useDispatch();
     const router = useRouter();
 
