@@ -18,12 +18,12 @@ const Cart = () => {
     const [totalAmt, setTotalAmt] = useState(0);
     const [rowPrice, setRowPrice] = useState(0);
 
-    const { productData,  } = useSelector((state: StateProps) => state?.pro);
+    const { productData, } = useSelector((state: StateProps) => state?.pro);
     const dispatch = useDispatch();
     const router = useRouter();
 
     const { data: session } = useSession();
-    console.log(session);
+    // console.log(session);
 
     const handleReset = () => {
         const confirmReset = window.confirm("Are you sure you want to rest your Cart?");
@@ -51,7 +51,7 @@ const Cart = () => {
 
     //stripe payment
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-    
+
     //     const stripe = await stripePromise;
     //     const response = await fetch(/api/checkout', {
     //         method: "POST",
@@ -70,25 +70,25 @@ const Cart = () => {
     //         throw new Error("Failed to create Stripe Payment");
     //     }
     // };
-    const handleCheckout = async()=>{
+    const handleCheckout = async () => {
         const stripe = await stripePromise
-       const response = await fetch("https://illustrious-hotteok-34ef0e.netlify.app/api/checkout",{
-        method: "POST",
-        headers:{"Content-Type": "application/json"},
-        body: JSON.stringify({
-            items: productData,
-            email: session?.user?.email,
-        }),
-       });
-       const data = await response.json();
+        const response = await fetch("https://illustrious-hotteok-34ef0e.netlify.app/api/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                items: productData,
+                email: session?.user?.email,
+            }),
+        });
+        const data = await response.json();
 
-       if(response.ok){
-         await dispatch(addOrder({order: productData, id: data.id }));
-         stripe?.redirectToCheckout({ sessionId: data.id });
-         dispatch(resetCart());
-       }else{
-        throw new Error("Failed to create Stripe Payment");
-       }
+        if (response.ok) {
+            await dispatch(addOrder({ order: productData, id: data.id }));
+            stripe?.redirectToCheckout({ sessionId: data.id });
+            dispatch(resetCart());
+        } else {
+            throw new Error("Failed to create Stripe Payment");
+        }
     };
 
     return (
@@ -127,16 +127,21 @@ const Cart = () => {
                                                             `${item.attributes.title} is remoived from Wishlist!`
                                                         );
                                                 }}
-                                                className="w-4 h-4 hover:text-red-600 cursor-pointer duration-200" />
-                                            <Image
-                                                src={item?.attributes?.image?.data?.attributes?.url}
-                                                alt="product image"
-                                                width={500}
-                                                height={500}
-                                                className="w-24 object-contain" />
-                                            <p className="text-base font-medium text-black ">
-                                                {item?.attributes?.title}
-                                            </p>
+                                                className="w-4 h-4 hover:text-red-600 cursor-pointer duration-200 " />
+
+
+                                            <div>
+                                                <Image
+                                                    src={item?.attributes?.image?.data?.attributes?.url}
+                                                    alt="product image"
+                                                    width={500}
+                                                    height={500}
+                                                    className="w-24 object-contain" />
+                                                <p className="text-base font-medium text-black mt-2">
+                                                    {item?.attributes?.title}
+                                                </p>
+                                            </div>
+
                                         </th>
                                         <td className="px-6 py-4">
                                             <FormattedPrice amount={item?.attributes?.price} />

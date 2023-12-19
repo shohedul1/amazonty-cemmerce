@@ -15,7 +15,7 @@ const Navbar = () => {
   const { data: session } = useSession();
   // console.log(session)
   const { productData, favoriteData, orderData } = useSelector((state: StateProps) => state.pro);
-  console.log(productData);
+  // console.log(productData);
 
   return (
     <div className="w-full h-20 border-b-[1px] border border-b-zinc-500 bg-white text-zinc-600 sticky top-0 z-50 bg-white/80 backdrop-blur-2xl">
