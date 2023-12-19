@@ -58,15 +58,17 @@ const Wishlist = () => {
                                                         );
                                                 }}
                                                 className="w-4 h-4 hover:text-red-600 cursor-pointer duration-200" />
-                                            <Image
-                                                src={item?.attributes?.image?.data?.attributes?.url}
-                                                alt="product image"
-                                                width={500}
-                                                height={500}
-                                                className="w-24 object-contain" />
-                                            <p className="text-base font-medium text-black ">
-                                                {item?.attributes?.title}
-                                            </p>
+                                            <div>
+                                                <Image
+                                                    src={item?.attributes?.image?.data?.attributes?.url}
+                                                    alt="product image"
+                                                    width={500}
+                                                    height={500}
+                                                    className="w-24 object-contain" />
+                                                <p className="text-base font-medium text-black ">
+                                                    {item?.attributes?.title}
+                                                </p>
+                                            </div>
                                         </th>
                                         <td className="px-6 py-4">
                                             <FormattedPrice amount={item?.attributes?.price} />
